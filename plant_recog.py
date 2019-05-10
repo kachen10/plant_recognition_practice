@@ -201,7 +201,7 @@ class CollectBatchStats(tf.keras.callbacks.Callback):
 # Using 1 epoch
 steps_per_epoch = image_data.samples//image_data.batch_size
 batch_stats = CollectBatchStats()
-model.fit((item for item in image_data), epochs=1,
+model.fit((item for item in image_data), epochs=10,
           steps_per_epoch=steps_per_epoch,
           callbacks=[batch_stats])
 
@@ -242,3 +242,20 @@ for n in range(30):
   plt.title(labels_batch[n])
   plt.axis('off')
 _ = plt.suptitle("Model predictions")
+
+
+#%%
+# Export model
+export_path = tf.contrib.saved_model.save_keras_model(model, "./saved_models")
+export_path
+
+
+#%%
+# Convert model to tflite
+converter = tf.lite.TFLiteConverter.from_saved_model(
+    "./saved_models/1557530984")
+tflite_model = converter.convert()
+open("converted_model.tflite", "wb").write(tflite_model)
+
+
+#%%
