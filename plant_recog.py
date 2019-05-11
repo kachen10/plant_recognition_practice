@@ -250,11 +250,15 @@ export_path = tf.contrib.saved_model.save_keras_model(model, "./saved_models")
 export_path
 
 
+
+
 #%%
 # Convert model to tflite
 converter = tf.lite.TFLiteConverter.from_saved_model(
-    "./saved_models/1557530984")
+    "./saved_models\\1557539094")
+print("Succeeded")
 tflite_model = converter.convert()
+print("Opening")
 open("converted_model.tflite", "wb").write(tflite_model)
 
 
